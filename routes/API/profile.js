@@ -262,4 +262,7 @@ router.delete('/', passport.authenticate('jwt', { session: false }), (req, res) 
     })
     .catch(err => res.status(404).json({ error: 'Profile not found' }));
 });
+
+
+
 module.exports = router;
