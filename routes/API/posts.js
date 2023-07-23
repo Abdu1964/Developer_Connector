@@ -156,4 +156,31 @@ router.post('/comment/:id', passport.authenticate('jwt', { session: false }), (r
     })
     .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
 });
+// @route   DELETE api/posts/comment/:id/:comment_id
+// @desc    Delete a comment from a post
+// @access  Private
+router.delete('/comment/:id/:comment_id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Post.findById(req.params.id) //tjis one is post id not user id 
+    .then(post => {
+      // Check if the comment exists
+      if (post.comments.filter(comment => comment._id.toString() === req.params.comment_id).length === 0) {
+        return res.status(404).json({ commentnotfound: 'Comment not found' });
+      }
+
+      // Find the index of the comment to be removed
+      const removeIndex = post.comments.map(comment => comment._id.toString()).indexOf(req.params.comment_id);
+
+      // Check if the user is authorized to delete the comment
+      if (post.comments[removeIndex].user.toString() !== req.user.id) {
+        return res.status(401).json({ notauthorized: 'User not authorized' });
+      }
+
+      // Remove the comment from the comments array
+      post.comments.splice(removeIndex, 1);
+
+      // Save the post
+      post.save().then(post => res.json(post));
+    })
+    .catch(err => res.status(404).json({ postnotfound: 'No post found' }));
+});
 module.exports = router;
