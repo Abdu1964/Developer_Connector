@@ -42,7 +42,7 @@ if(user){
    s:'200', //size
    r:'pg',//rating
    d:'mm', //default
-  });
+  }) 
   const newUser = new User({
     name: req.body.name,
     email:req.body.email,
