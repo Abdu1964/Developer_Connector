@@ -7,8 +7,7 @@ import Landing from './component/layout/Landing'
 import Footer from  './component/layout/Footer'
 import Register from './component/auth/Register'
 import Login from './component/auth/Login'
-import {createStore,applyMiddleware} from 'redux' //to use redux
-const store = createStore(()=> [],{},applyMiddleware());
+import  store from './store'
 /*element means component   in react v6*/
 function App() {
   return (
