@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../redux/actions/authActions';
 import classNames from 'classnames'; //for the validations
+import { redirect } from 'react-router-dom';
 
 class Login extends Component {
   constructor() {
@@ -20,6 +21,11 @@ class Login extends Component {
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
+  // componentDidMount(){
+  //   if(this.props.auth.isAuthenticated){
+  //     this.props.navigate()
+  //   }
+  // }
   componentWillReceiveProps(nextProps) {
     //want to check to see if the user is authenticated
     if (nextProps.auth.isAuthenticated){
@@ -51,6 +57,9 @@ class Login extends Component {
    //.catch(err => this.setState({ errors: err.response.data }))  
 }
   render() {
+    if (this.props.auth.isAuthenticated) {
+      return <redirect to="/dashboard" />;
+    }
     const { errors } = this.state //which is equal to const errors = this.state.errors
     return (
       <div className="login">

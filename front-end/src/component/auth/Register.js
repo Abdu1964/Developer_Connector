@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { registerUser } from '../../redux/actions/authActions';
 import classnames from 'classnames';
 import { useNavigate } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 
 class Register extends Component {
   constructor(props) {
@@ -18,6 +19,11 @@ class Register extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  // componentDidMount(){
+  //   if(this.props.auth.isAuthenticated){
+  //     this.props.navigate('/dashboard')
+  //   }
+  // }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
@@ -43,6 +49,9 @@ class Register extends Component {
   }
 
   render() {
+    if (this.props.auth.isAuthenticated) {
+      return <redirect to="/dashboard" />;
+    }
     const { errors } = this.state;
 
     return (

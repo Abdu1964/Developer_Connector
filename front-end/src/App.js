@@ -4,7 +4,7 @@ import { Routes, Route} from 'react-router-dom';
 
 import jwt_decode from 'jwt-decode'
 import setAuthToken from './redux/utils/setAuthToken';
-import {setCurrentUser}  from './redux/actions/authActions'
+import {logoutUser, setCurrentUser}  from './redux/actions/authActions'
 
 import './App.css';
 import Navbar from './component/layout/Navbar'
@@ -21,6 +21,16 @@ if(localStorage.jwtToken){
   //decode token and get user info and exp
   const decoded =  jwt_decode(localStorage.jwtToken)
   //set user and isAuthenticated 
+ 
+ //check for expired token
+ const currentTime = Date.now() /1000;
+ if(decoded.exp < currentTime){
+  //logout user
+  store.dispatch(logoutUser());
+  //TODO :clear current profile
+  //REDIRECT TO LOGIN
+  window.location.href = '/login' ; 
+ }
   store.dispatch(setCurrentUser(decoded));
 }
 function App() {
