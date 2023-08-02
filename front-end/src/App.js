@@ -33,13 +33,13 @@ if(localStorage.jwtToken){
  }
   store.dispatch(setCurrentUser(decoded));
 }
+
 function App() {
   return (
     <Provider store={store}>
     <div className='app'>
     <Navbar />
-    <Routes>
-      
+    <Routes>      
     <Route exact path="/" element={<Landing />} />
     <Route exact path="/Register" element={<Register />} /> 
     <Route exact path="/Login" element={<Login />} />
